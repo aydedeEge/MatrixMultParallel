@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;MatrixMultParallel/src/A1&apos; to &apos;MatrixMult&apos;" description="Rename resource &apos;A1&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/A1" name="MatrixMult" stamp="1506804735664" updateReferences="true"/>
+</session>
