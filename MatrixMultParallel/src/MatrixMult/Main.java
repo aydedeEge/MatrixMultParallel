@@ -1,4 +1,4 @@
-package A1;
+package MatrixMult;
 
 public class Main {
 
