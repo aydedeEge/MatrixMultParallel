@@ -1,0 +1,74 @@
+import java.util.concurrent.*;
+import java.util.concurrent.locks.*;
+import java.util.Random;
+
+public class DiningPhilosopher {
+	private static Random rand = new Random();
+	private static Lock chop1 = new ReentrantLock();
+	private static Lock chop2 = new ReentrantLock();
+	private static Lock chop3 = new ReentrantLock();
+	private static Lock chop4 = new ReentrantLock();
+	private static Lock chop5 = new ReentrantLock();
+
+	
+	private static class Philo12 extends Thread{
+		
+		public void ThinkandEat(){
+			System.out.println("Philo12 is eating");
+			try{
+				Thread.sleep(rand.nextInt(5000));
+			}catch(InterruptedException ex){
+				
+			}
+		}
+		
+		public void run(){
+			
+		}
+	}
+	
+	private static class Philo23 extends Thread{
+		
+		public void ThinkandEat(){
+			
+		}
+		
+		public void run(){
+			
+		}
+	}
+
+	private static class Philo34 extends Thread{
+		
+		public void ThinkandEat(){
+			
+		}
+		
+		public void run(){
+			
+		}
+	}
+
+	private static class Philo45 extends Thread{
+		
+		public void ThinkandEat(){
+			
+		}
+		
+		public void run(){
+			
+		}
+	}
+
+	private static class Philo51 extends Thread{
+		
+		public void ThinkandEat(){
+			
+		}
+		
+		public void run(){
+			
+		}
+	}
+}
+

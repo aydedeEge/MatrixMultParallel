@@ -1,0 +1,32 @@
+import java.util.concurrent.*;
+import java.util.concurrent.locks.*;
+
+public class DeadLockDemo {
+	private User1 user1 = new User1();
+	private static Lock lock1 = new ReentrantLock();
+	private static Lock lock2 = new ReentrantLock();
+
+	public static void main(String[] args) {
+		
+	}
+	
+	private static class User1 extends Thread{
+		public void getLock1ThenLock2(){
+			
+		}
+		
+		public void run() {
+			
+		}
+	}
+	
+	private static class User2 extends Thread{
+		public void getLock2ThenLock2(){
+			
+		}
+		
+		public void run() {
+			
+		}
+	}
+}

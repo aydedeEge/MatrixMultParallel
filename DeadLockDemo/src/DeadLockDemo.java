@@ -19,10 +19,21 @@ public class DeadLockDemo {
 			System.out.println("User1 acquired lock1");
 			try{
 				Thread.sleep(5000);
+				lock2.lock();
+				System.out.println("User1 acquired lock2");
+				try{
+					Thread.sleep(5000);
+				}catch(InterruptedException ex){
+				}finally{
+					lock2.unlock();
+					System.out.println("User1 released lock2");
+				}
+				
 			}catch (InterruptedException ex) {
+			}finally{
+				lock1.unlock();
+				System.out.println("User1 released lock1");
 			}
-			lock2.lock();
-			System.out.println("User1 acquired lock2");
 		}
 		
 		public void run() {
@@ -37,10 +48,21 @@ public class DeadLockDemo {
 			System.out.println("User2 acquired lock2");
 			try{
 				Thread.sleep(5000);
+				lock1.lock();
+				System.out.println("User2 acquired lock1");
+				try{
+					Thread.sleep(5000);
+				}catch(InterruptedException ex){
+				}finally{
+					lock1.unlock();
+					System.out.println("User2 released lock1");
+				}
+				
 			}catch (InterruptedException ex) {
+			}finally{
+				lock2.unlock();
+				System.out.println("User2 released lock2");
 			}
-			lock1.lock();
-			System.out.println("User2 acquired lock1");
 		}
 		
 		public void run() {
