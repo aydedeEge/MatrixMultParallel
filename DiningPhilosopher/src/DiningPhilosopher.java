@@ -9,175 +9,54 @@ public class DiningPhilosopher {
 	private static Lock chop3 = new ReentrantLock();
 	private static Lock chop4 = new ReentrantLock();
 	private static Lock chop5 = new ReentrantLock();
-
 	
 	private static void main(String[] args){
 		ExecutorService executor = Executors.newCachedThreadPool();
-	}
-	
-	private static class Philo12 extends Thread{
 		
-		public void ThinkandEat(){
-			System.out.println("Philo12 is thinking");
-			try{
-				Thread.sleep(rand.nextInt(2000));
-			}catch(InterruptedException ex){}
-			
-			System.out.println("Philo12 is attempting to eat");
-			chop1.lock();
-			System.out.println("Philo12 grabbed chop1");
-			
-			chop2.lock();
-			System.out.println("Philo12 grabbed chop2");
-			
-			try{
-				Thread.sleep(rand.nextInt(2000));
-			}catch(InterruptedException ex){
-			}finally {
-				chop1.unlock();
-				System.out.println("Philo12 released chop1");
-				
-				chop2.unlock();
-				System.out.println("Philo12 released chop2");
-			}
-			
+		executor.execute(new ThinkandEat(chop1, chop2, "Philo12"));
+		executor.execute(new ThinkandEat(chop2, chop3, "Philo23"));
+		executor.execute(new ThinkandEat(chop3, chop4, "Philo34"));
+		executor.execute(new ThinkandEat(chop4, chop5, "Philo45"));
+		executor.execute(new ThinkandEat(chop5, chop1, "Philo51"));
+		
+		executor.shutdown();
+	}
+		
+	public static class ThinkandEat implements Runnable{
+		private Lock left, right;
+		private String name;
+		
+		public ThinkandEat(Lock left, Lock right, String name){
+			this.left = left;
+			this.right = right;
+			this.name = name;
 		}
 		
 		public void run(){
-			this.ThinkandEat();
-		}
-	}
-	
-	private static class Philo23 extends Thread{
-		
-		public void ThinkandEat(){
-			System.out.println("Philo23 is thinking");
-			try{
-				Thread.sleep(rand.nextInt(2000));
-			}catch(InterruptedException ex){}
-			
-			System.out.println("Philo23 is attempting to eat");
-			chop2.lock();
-			System.out.println("Philo23 grabbed chop2");
-			
-			chop3.lock();
-			System.out.println("Philo23 grabbed chop3");
-			
-			try{
-				Thread.sleep(rand.nextInt(2000));
-			}catch(InterruptedException ex){
-			}finally {
-				chop2.unlock();
-				System.out.println("Philo23 released chop2");
+			while(true){
+				System.out.println(name + " is thinking");
+				try{
+					Thread.sleep(rand.nextInt(2000));
+				}catch(InterruptedException ex){}
 				
-				chop3.unlock();
-				System.out.println("Philo23 released chop3");
-			}
-			
-		}
-		
-		public void run(){
-			this.ThinkandEat();
-		}
-	}
-
-	private static class Philo34 extends Thread{
-		
-		public void ThinkandEat(){
-			System.out.println("Philo34 is thinking");
-			try{
-				Thread.sleep(rand.nextInt(2000));
-			}catch(InterruptedException ex){}
-			
-			System.out.println("Philo34 is attempting to eat");
-			chop3.lock();
-			System.out.println("Philo34 grabbed chop3");
-			
-			chop4.lock();
-			System.out.println("Philo12 grabbed chop4");
-			
-			try{
-				Thread.sleep(rand.nextInt(2000));
-			}catch(InterruptedException ex){
-			}finally {
-				chop3.unlock();
-				System.out.println("Philo34 released chop3");
+				System.out.println(name + " is attempting to eat");
+				left.lock();
+				System.out.println(name +" grabbed left chopstick");
 				
-				chop4.unlock();
-				System.out.println("Philo34 released chop4");
-			}
-			
-		}
-		
-		public void run(){
-			this.ThinkandEat();
-		}
-	}
-
-	private static class Philo45 extends Thread{
-		
-		public void ThinkandEat(){
-			System.out.println("Philo45 is thinking");
-			try{
-				Thread.sleep(rand.nextInt(2000));
-			}catch(InterruptedException ex){}
-			
-			System.out.println("Philo45 is attempting to eat");
-			chop4.lock();
-			System.out.println("Philo45 grabbed chop4");
-			
-			chop5.lock();
-			System.out.println("Philo45 grabbed chop5");
-			
-			try{
-				Thread.sleep(rand.nextInt(2000));
-			}catch(InterruptedException ex){
-			}finally {
-				chop4.unlock();
-				System.out.println("Philo45 released chop4");
+				right.lock();
+				System.out.println(name +" grabbed right chopstick");
 				
-				chop5.unlock();
-				System.out.println("Philo45 released chop5");
+				try{
+					Thread.sleep(rand.nextInt(2000));
+				}catch(InterruptedException ex){
+				}finally {
+					left.unlock();
+					System.out.println(name +" released left chopstick");
+					
+					right.unlock();
+					System.out.println(name +" released right chopstick");
+				}
 			}
-			
-		}
-		
-		public void run(){
-			this.ThinkandEat();
-		}
-	}
-
-	private static class Philo51 extends Thread{
-		
-		public void ThinkandEat(){
-			System.out.println("Philo51 is thinking");
-			try{
-				Thread.sleep(rand.nextInt(2000));
-			}catch(InterruptedException ex){}
-			
-			System.out.println("Philo51 is attempting to eat");
-			chop5.lock();
-			System.out.println("Philo51 grabbed chop5");
-			
-			chop1.lock();
-			System.out.println("Philo51 grabbed chop1");
-			
-			try{
-				Thread.sleep(rand.nextInt(2000));
-			}catch(InterruptedException ex){
-			}finally {
-				chop5.unlock();
-				System.out.println("Philo51 released chop5");
-				
-				chop1.unlock();
-				System.out.println("Philo51 released chop1");
-			}
-			
-		}
-		
-		public void run(){
-			this.ThinkandEat();
 		}
 	}
 }
-
