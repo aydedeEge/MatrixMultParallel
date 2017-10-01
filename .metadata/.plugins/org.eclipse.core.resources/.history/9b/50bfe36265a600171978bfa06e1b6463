@@ -10,7 +10,7 @@ public class DiningPhilosopher {
 	private static Lock chop4 = new ReentrantLock();
 	private static Lock chop5 = new ReentrantLock();
 	
-	public static void main(String[] args){
+	private static void main(String[] args){
 		ExecutorService executor = Executors.newCachedThreadPool();
 		
 		executor.execute(new ThinkandEat(chop1, chop2, "Philo12"));
