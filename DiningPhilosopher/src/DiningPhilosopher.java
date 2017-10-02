@@ -42,7 +42,9 @@ public class DiningPhilosopher {
 				System.out.println(name + " is attempting to eat");
 				left.lock();
 				System.out.println(name +" grabbed left chopstick");
-				
+				try{Thread.sleep(2000);
+				}catch(InterruptedException ex){
+				}
 				right.lock();
 				System.out.println(name +" grabbed right chopstick");
 				
