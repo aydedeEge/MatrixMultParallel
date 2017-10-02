@@ -42,9 +42,11 @@ public class DiningPhilosopher {
 				System.out.println(name + " is attempting to eat");
 				left.lock();
 				System.out.println(name +" grabbed left chopstick");
+				//Added delay to show the deadlock that can occur with this specific implementation
 				try{Thread.sleep(2000);
 				}catch(InterruptedException ex){
 				}
+				
 				right.lock();
 				System.out.println(name +" grabbed right chopstick");
 				
