@@ -74,8 +74,8 @@ public class Main {
 			MATRIX_SIZE += 50;
 			double[][] a = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
 			double[][] b = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
-			System.out.println(MATRIX_SIZE + "  		:" + getAverageParallelTime(a, b) + " 		:"
-					+ getAverageSequentialTime(a, b));
+			System.out.println(MATRIX_SIZE + "  		:" + getAverageSequentialTime(a, b) + " 		:"
+					+ getAverageParallelTime(a, b));
 
 		}
 	}
@@ -91,8 +91,8 @@ public class Main {
 			MATRIX_SIZE += 200;
 			double[][] a = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
 			double[][] b = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
-			System.out.println(MATRIX_SIZE + "  		:" + getAverageParallelTime(a, b) + " 		:"
-					+ getAverageSequentialTime(a, b));
+			System.out.println(MATRIX_SIZE + "  		:" + getAverageSequentialTime(a, b) + " 		:"
+					+ getAverageParallelTime(a, b));
 
 		}
 	}
