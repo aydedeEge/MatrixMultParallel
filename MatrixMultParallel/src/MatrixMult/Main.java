@@ -15,7 +15,7 @@ public class Main {
 			NUMBER_OF_THREADS = Integer.parseInt(args[0]);
 			MATRIX_SIZE = Integer.parseInt(args[1]);
 		} else { // put default parameters, 4 core, 2000X2000 matrix
-			NUMBER_OF_THREADS = 4;
+			NUMBER_OF_THREADS = 8;
 			MATRIX_SIZE = 2000;
 		}
 		System.out.println("Q 1.3)");
@@ -67,8 +67,9 @@ public class Main {
 	public static void q15() {
 		// plot parallel time by size of matrix
 		MATRIX_SIZE = 0;
-		System.out.println("matrix size : sequential ms : parallel ms");
-
+		NUMBER_OF_THREADS  = 8;
+		System.out.println("matrix size : sequential ms : parallel(8 threads) ms");
+		
 		for (int i = 0; i < 15; i++) {
 			MATRIX_SIZE += 50;
 			double[][] a = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
@@ -83,7 +84,9 @@ public class Main {
 		System.out.println("Higher scale");
 		// plot parallel time by num of threads
 		MATRIX_SIZE = 0;
-		System.out.println("matrix size : sequential ms : parallel ms");
+		NUMBER_OF_THREADS = 8;
+		System.out.println("matrix size : sequential ms : parallel (8 threads) ms");
+		
 		for (int i = 0; i < 15; i++) {
 			MATRIX_SIZE += 200;
 			double[][] a = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
