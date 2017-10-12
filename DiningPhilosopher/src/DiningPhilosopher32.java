@@ -5,6 +5,9 @@ import java.util.Random;
 public class DiningPhilosopher32 {
 	/*All shared chop stick resources*/
 	private static Random rand = new Random();
+	private static boolean keep_running = true;
+	private static long start_time;
+	private static long current_time;
 	private static Lock chop1 = new ReentrantLock();
 	private static Lock chop2 = new ReentrantLock();
 	private static Lock chop3 = new ReentrantLock();
@@ -24,22 +27,37 @@ public class DiningPhilosopher32 {
 		executor.execute(new ThinkandEat(chop5, chop1, "Philo51"));
 		
 		executor.shutdown();
+		
+		start_time = System.currentTimeMillis();
+		current_time = System.currentTimeMillis();
+		while((current_time - start_time) < 60000){
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			current_time = System.currentTimeMillis();
+		}
+		
+		keep_running = false;
 	}
 		
 	/*Philosopher Runnable class*/
 	public static class ThinkandEat implements Runnable{
 		private Lock left, right;
 		private String name;
+		private int eat_count;
 		
 		public ThinkandEat(Lock left, Lock right, String name){
 			this.left = left;
 			this.right = right;
 			this.name = name;
+			this.eat_count = 0;
 		}
 		
 		/*Process of thinking and eating*/
 		public void run(){
-			while(true){
+			while(keep_running){
 				/*Think for random time between 0 and 2s*/
 				System.out.println(name + " is thinking");
 				try{
@@ -63,6 +81,7 @@ public class DiningPhilosopher32 {
 				/*Eat for random time between 0 and 2s*/
 				try{
 					Thread.sleep(rand.nextInt(2000));
+					eat_count++;
 				}catch(InterruptedException ex){
 				}finally {
 					left.unlock();
@@ -75,6 +94,7 @@ public class DiningPhilosopher32 {
 					System.out.println(name +" done eating!");
 				}
 			}
+			System.out.println(name + " ate " + eat_count + " times.");
 		}
 	}
 }

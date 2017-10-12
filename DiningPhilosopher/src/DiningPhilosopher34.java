@@ -5,6 +5,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class DiningPhilosopher34 {
+	private static long start_time;
+	private static long current_time;
 	private static Lock[] chopsticks;
 	private static int choplength;
 	private static boolean keep_running = true;
@@ -13,8 +15,7 @@ public class DiningPhilosopher34 {
 	private static ExecutorService executor = Executors.newCachedThreadPool();
 	
 	public static void main(String[] args){
-		long start_time;
-		long current_time;
+		
 		PhiloGenAndEx.runGenAndEx(Integer.parseInt(args[0]));
 		
 		/*Timing mechanism used to stop Philosophers 

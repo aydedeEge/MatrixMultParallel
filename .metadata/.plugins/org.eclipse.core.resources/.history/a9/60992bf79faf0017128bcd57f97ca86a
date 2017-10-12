@@ -46,13 +46,11 @@ public class DiningPhilosopher33 {
 	public static class ThinkandEat implements Runnable{
 		private Lock left, right;
 		private String name;
-		private int eat_count;
 		
 		public ThinkandEat(Lock left, Lock right, String name){
 			this.left = left;
 			this.right = right;
 			this.name = name;
-			this.eat_count = 0;
 		}
 		
 		/*Process of thinking and eating*/
@@ -101,7 +99,6 @@ public class DiningPhilosopher33 {
 				/*Eat for random time between 0 and 2s*/
 				try{
 					Thread.sleep(rand.nextInt(2000));
-					eat_count++;
 				}catch(InterruptedException ex){
 				}finally {
 					left.unlock();
@@ -117,7 +114,6 @@ public class DiningPhilosopher33 {
 					
 				}
 			}
-			System.out.println(name + " ate " + eat_count + " times.");
 		}
 	}
 }
