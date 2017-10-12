@@ -1,2 +1,2 @@
-commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\n<messages>\n<message>First Commit</message>\n</messages>
+commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\n<messages>\n<message>Added part 3.2 and 3.3 of DiningPhilospher</message>\n<message>Changed main from private to public</message>\n<message>Added DiningPhilosophers</message>\n<message>Deadlock edit and DiningPhilosopher unifinished</message>\n<message>Deadlock demo functional</message>\n<message>First Commit of DeadLockDemo</message>\n<message>Added project folder for Deadlock Demo</message>\n<message>Refactored project name&\#x0A;</message>\n<message>First Commit</message>\n</messages>
 eclipse.preferences.version=1
