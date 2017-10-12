@@ -4,22 +4,21 @@ public class RowsComputingTask implements Runnable {
 
 	private double[][] a;
 	private double[][] b;
-	private int indexStart;
-	private int indexEnd;
+	private int indexRowStart;
+	private int indexRowEnd;
 	private double[][] result;
 
-	public RowsComputingTask(double[][] a, double[][] b, int indexStart, int indexEnd, double[][] result) {
-
+	public RowsComputingTask(double[][] a, double[][] b, int indexRowStart, int indexRowEnd, double[][] result) {
 		this.a = a;
 		this.b = b;
-		this.indexStart = indexStart;
-		this.indexEnd = indexEnd;
+		this.indexRowStart = indexRowStart;
+		this.indexRowEnd = indexRowEnd;
 		this.result = result;
 	}
 
 	@Override
-	public void run() {
-		for (int j = indexStart; j < indexEnd; j++) {
+	public void run() { // compute the rows assigned to this task and put it in the result matrix
+		for (int j = indexRowStart; j < indexRowEnd; j++) {
 			for (int i = 0; i < result[j].length; i++) {
 				double entry = 0;
 				for (int k = 0; k < a.length; k++) {

@@ -10,59 +10,90 @@ public class Main {
 	public static int MATRIX_SIZE;
 
 	public static void main(String[] args) {
-		NUMBER_OF_THREADS = 8;
-		MATRIX_SIZE = 50;
-		// double[][] a = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
-		// double[][] b = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
-		//
-		// // compute sequentially
-		// long duration = getAverageSequentialTime(a, b);
-		// System.out.println("Sequential computation time : " + duration + "ms");
-		//
-		// // compute in parallel
-		// duration = getAverageParallelTime(a, b);
-		// System.out.println("Parallel computation time : " + duration + "ms");
-		plot15();
-		plot15HighScale();
+
+		if (args.length == 2) { // take input parameters
+			NUMBER_OF_THREADS = Integer.parseInt(args[0]);
+			MATRIX_SIZE = Integer.parseInt(args[1]);
+		} else { // put default parameters, 4 core, 2000X2000 matrix
+			NUMBER_OF_THREADS = 4;
+			MATRIX_SIZE = 2000;
+		}
+		System.out.println("Q 1.3)");
+		System.out.println();
+		q13();
+		System.out.println();
+		System.out.println("--------------------------------");
+		System.out.println();
+		System.out.println("Q 1.4)");
+
+		System.out.println();
+		q14();
+		System.out.println();
+		System.out.println("--------------------------------");
+		System.out.println();
+		System.out.println("Q 1.5)");
+
+		System.out.println();
+		q15();
+		q15HighScale();
+		System.out.println();
+		System.out.println("--------------------------------");
+		System.out.println();
 
 	}
 
-	public static void plot14() {
+	public static void q13() {
 		double[][] a = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
 		double[][] b = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
-		// plot parallel time by num of threads
-		for (int i = 2; i < 8; i++) {
-			System.out.println(NUMBER_OF_THREADS + ";" + getAverageParallelTime(a, b));
+		System.out.println("Computing a " + MATRIX_SIZE + "X" + MATRIX_SIZE + " matrix sequentially... ");
+		System.out.println("Average computation time : " + getAverageSequentialTime(a, b) + " ms");
+		System.out.println("Computing a " + MATRIX_SIZE + "X" + MATRIX_SIZE + " matrix in parallel with "
+				+ NUMBER_OF_THREADS + " threads... ");
+		System.out.println("Average computation time : " + getAverageParallelTime(a, b) + " ms");
+	}
+
+	public static void q14() {
+		double[][] a = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
+		double[][] b = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
+		System.out.println("Computing a " + MATRIX_SIZE + "X" + MATRIX_SIZE + " in parallel");
+		System.out.println("Num of threads:	average ms");
+		for (int i = 1; i < 8; i++) {
 			NUMBER_OF_THREADS = i * 2;
+			System.out.println(NUMBER_OF_THREADS + "		:" + getAverageParallelTime(a, b) );
 		}
 
 	}
 
-	public static void plot15() {
-		// plot parallel time by num of threads
-		for (int i = 0; i < 25; i++) {
-			double[][] a = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
-			double[][] b = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
-			
-			System.out.println(
-					MATRIX_SIZE + "   " + getAverageParallelTime(a, b) + "   " + getAverageSequentialTime(a, b));
-			MATRIX_SIZE+=50;
+	public static void q15() {
+		// plot parallel time by size of matrix
+		MATRIX_SIZE = 0;
+		System.out.println("matrix size : sequential ms : parallel ms");
 
-		}
-	}
-	public static void plot15HighScale() {
-		System.out.println("High scale");
-		// plot parallel time by num of threads
 		for (int i = 0; i < 15; i++) {
+			MATRIX_SIZE += 50;
 			double[][] a = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
 			double[][] b = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
-			
-			System.out.println(
-					MATRIX_SIZE + "   " + getAverageParallelTime(a, b) + "   " + getAverageSequentialTime(a, b));
-			MATRIX_SIZE+=200;
+			System.out.println(MATRIX_SIZE + "  		:" + getAverageParallelTime(a, b) + " 		:"
+					+ getAverageSequentialTime(a, b));
 
 		}
 	}
+
+	public static void q15HighScale() {
+		System.out.println("Higher scale");
+		// plot parallel time by num of threads
+		MATRIX_SIZE = 0;
+		System.out.println("matrix size : sequential ms : parallel ms");
+		for (int i = 0; i < 15; i++) {
+			MATRIX_SIZE += 200;
+			double[][] a = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
+			double[][] b = MatrixHelper.randomMatrixGenerator(MATRIX_SIZE, MATRIX_SIZE);
+			System.out.println(MATRIX_SIZE + "  		:" + getAverageParallelTime(a, b) + " 		:"
+					+ getAverageSequentialTime(a, b));
+
+		}
+	}
+
 	public static long getAverageSequentialTime(double[][] a, double[][] b) {
 		long averageDurationMs = 0;
 		for (int i = 0; i < 3; i++) {
@@ -70,7 +101,7 @@ public class Main {
 			sequentialMultiplyMatrix(a, b);
 			long endTime = System.nanoTime();
 			long duration = (endTime - startTime) / 1000000; // divide by 1000000 to get milliseconds.
-			averageDurationMs+=duration;
+			averageDurationMs += duration;
 		}
 		return averageDurationMs / 3;
 	}
@@ -82,9 +113,9 @@ public class Main {
 			parallelMultiplyMatrix(a, b);
 			long endTime = System.nanoTime();
 			long duration = (endTime - startTime) / 1000000;// divide by 1000000 to get milliseconds.
-			averageDurationMs+=duration;
+			averageDurationMs += duration;
 		}
-		return averageDurationMs / 3; 
+		return averageDurationMs / 3;
 	}
 
 	public static double[][] sequentialMultiplyMatrix(double[][] a, double[][] b) {
