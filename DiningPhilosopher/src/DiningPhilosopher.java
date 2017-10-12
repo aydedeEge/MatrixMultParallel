@@ -3,6 +3,7 @@ import java.util.concurrent.locks.*;
 import java.util.Random;
 
 public class DiningPhilosopher {
+	/*All shared chop stick resources*/
 	private static Random rand = new Random();
 	private static Lock chop1 = new ReentrantLock();
 	private static Lock chop2 = new ReentrantLock();
@@ -13,6 +14,7 @@ public class DiningPhilosopher {
 	public static void main(String[] args){
 		ExecutorService executor = Executors.newCachedThreadPool();
 		
+		/*Creating and executing the philosophers*/
 		executor.execute(new ThinkandEat(chop1, chop2, "Philo12"));
 		executor.execute(new ThinkandEat(chop2, chop3, "Philo23"));
 		executor.execute(new ThinkandEat(chop3, chop4, "Philo34"));
@@ -21,7 +23,8 @@ public class DiningPhilosopher {
 		
 		executor.shutdown();
 	}
-		
+	
+	/*Philosopher Runnable class*/
 	public static class ThinkandEat implements Runnable{
 		private Lock left, right;
 		private String name;
@@ -32,8 +35,10 @@ public class DiningPhilosopher {
 			this.name = name;
 		}
 		
+		/*Process of thinking and eating*/
 		public void run(){
 			while(true){
+				/*Think for random time between 0 and 2s*/
 				System.out.println(name + " is thinking");
 				try{
 					Thread.sleep(rand.nextInt(2000));
@@ -50,6 +55,7 @@ public class DiningPhilosopher {
 				right.lock();
 				System.out.println(name +" grabbed right chopstick");
 				
+				/*Eat for random time between 0 and 2s*/
 				try{
 					Thread.sleep(rand.nextInt(2000));
 				}catch(InterruptedException ex){
