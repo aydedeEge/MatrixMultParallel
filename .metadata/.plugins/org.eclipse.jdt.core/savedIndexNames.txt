@@ -9,7 +9,6 @@ INDEX VERSION 1.127+/Users/EgeAydede/Documents/McGill/U4S1/COMP420/MatrixMultPar
 3713255034.index
 2657941695.index
 1271342938.index
-3561419030.index
 179992142.index
 1667701654.index
 3781870007.index
