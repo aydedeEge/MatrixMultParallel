@@ -6,6 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class DiningPhilosopher34 {
 	private static Lock[] chopsticks;
+	private static int[] results;
 	private static int choplength;
 	private static boolean keep_running = true;
 	private static Random rand = new Random();
@@ -17,8 +18,6 @@ public class DiningPhilosopher34 {
 		long current_time;
 		PhiloGenAndEx.runGenAndEx(Integer.parseInt(args[0]));
 		
-		/*Timing mechanism used to stop Philosophers 
-		 * from thinking and eating.*/
 		start_time = System.currentTimeMillis();
 		current_time = System.currentTimeMillis();
 		while((current_time - start_time) < 60000){
@@ -33,12 +32,10 @@ public class DiningPhilosopher34 {
 		keep_running = false;
 	}
 		
-	/*Static philosopher and chop stick generator class*/
 	public static class PhiloGenAndEx{
 		private PhiloGenAndEx(){
 		}
 		
-		/*Populate chopstick array with lock resources*/
 		private static void genChopSticks(int chopCount){
 			chopsticks = new Lock[chopCount];
 			for(int i=0; i<chopCount; i++){
@@ -47,23 +44,21 @@ public class DiningPhilosopher34 {
 			choplength = chopsticks.length;
 		}
 		
-		/*Needs to run after genChopSticks*/
-		/*Create user specified number of philosopher threads*/
+		//Needs to run after genChopSticks
 		private static void genAndExecutePhilo(int philoCount){
+			results = new int[philoCount];
 			for(int i=0; i<philoCount; i++){
 				executor.execute(new ThinkandEat(chopsticks[i], chopsticks[((i+1)% choplength + 1)-1], "Philo"+ i + "" + ((i+1)%choplength)));
 			}
 			executor.shutdown();
 		}
 		
-		/*Start generating both chopsticks and philosopher threads*/
 		public static void runGenAndEx(int chopAndPhiloCount){
 			genChopSticks(chopAndPhiloCount);
 			genAndExecutePhilo(chopAndPhiloCount);
 		}
 	}
 	
-	/*Philosopher calss*/
 	public static class ThinkandEat implements Runnable{
 		private Lock left, right;
 		private String name;
@@ -76,7 +71,6 @@ public class DiningPhilosopher34 {
 			this.eat_count = 0;
 		}
 		
-		/*Keep eating and thinking until keep_running is no longer true*/
 		public void run(){
 			int priority_count = 0;
 			while(keep_running){
@@ -89,8 +83,7 @@ public class DiningPhilosopher34 {
 				
 				left.lock();
 				System.out.println(name +" grabbed left chopstick");
-				/*Added delay to show that, even in the worst case,
-				 * deadlock does not occur with n philosophers*/ 
+				//Added delay to show the deadlock that can occur with this specific implementation
 				try{Thread.sleep(2000);
 				}catch(InterruptedException ex){
 				}
@@ -119,8 +112,6 @@ public class DiningPhilosopher34 {
 				priority_count = 0;
 				System.out.println(name +" grabbed right chopstick");
 				
-				/*Eat for random amount of time between 0 and 2s
-				 * then release all held resources*/
 				try{
 					Thread.sleep(rand.nextInt(2000));
 					eat_count++;

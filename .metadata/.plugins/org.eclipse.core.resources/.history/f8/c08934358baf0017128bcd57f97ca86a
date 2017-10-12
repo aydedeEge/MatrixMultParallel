@@ -2,21 +2,17 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 import java.util.Random;
 
-public class DiningPhilosopher33 {
-	/*All shared chop stick resources*/
+public class DiningPhilosopher {
 	private static Random rand = new Random();
 	private static Lock chop1 = new ReentrantLock();
 	private static Lock chop2 = new ReentrantLock();
 	private static Lock chop3 = new ReentrantLock();
 	private static Lock chop4 = new ReentrantLock();
 	private static Lock chop5 = new ReentrantLock();
-	/*Priority resource used to ensure that a starving philosopher will eat*/
-	private static Lock priority = new ReentrantLock();
 	
 	public static void main(String[] args){
 		ExecutorService executor = Executors.newCachedThreadPool();
 		
-		/*Creating and executing the philosophers*/
 		executor.execute(new ThinkandEat(chop1, chop2, "Philo12"));
 		executor.execute(new ThinkandEat(chop2, chop3, "Philo23"));
 		executor.execute(new ThinkandEat(chop3, chop4, "Philo34"));
@@ -25,7 +21,7 @@ public class DiningPhilosopher33 {
 		
 		executor.shutdown();
 	}
-		
+	
 	/*Philosopher Runnable class*/
 	public static class ThinkandEat implements Runnable{
 		private Lock left, right;
@@ -39,48 +35,23 @@ public class DiningPhilosopher33 {
 		
 		/*Process of thinking and eating*/
 		public void run(){
-			int priority_count = 0;
 			while(true){
-				/*Think for random time between 0 and 2s*/
 				System.out.println(name + " is thinking");
 				try{
 					Thread.sleep(rand.nextInt(2000));
 				}catch(InterruptedException ex){}
 				
 				System.out.println(name + " is attempting to eat");
-				
 				left.lock();
 				System.out.println(name +" grabbed left chopstick");
-				//Added delay to show that deadlock no longer occurs with this implementation
+				//Added delay to show the deadlock that can occur with this specific implementation
 				try{Thread.sleep(2000);
 				}catch(InterruptedException ex){
 				}
 				
-				/*Preemption*/
-				/*Try to take right chop stick and release left chop stick if request denied, then restart execution*/
-				if(!right.tryLock()){
-					/*Give priority to those who have waited for 5 iterations without eating*/
-					if(priority_count == 5){
-						System.out.println(name + " was given priority");
-						priority.lock();
-						right.lock();
-					}else{
-						try{
-							System.out.println(name + " couldn't grab right chopstick.");
-							System.out.println(name + " dropping left chopstick and restarting");
-							left.unlock();
-							priority_count++;
-							Thread.sleep(rand.nextInt(4000));
-							continue;
-						}catch(InterruptedException ex){
-							continue;
-						}
-					}
-				}
-				priority_count = 0;
+				right.lock();
 				System.out.println(name +" grabbed right chopstick");
 				
-				/*Eat for random time between 0 and 2s*/
 				try{
 					Thread.sleep(rand.nextInt(2000));
 				}catch(InterruptedException ex){
@@ -90,12 +61,6 @@ public class DiningPhilosopher33 {
 					
 					right.unlock();
 					System.out.println(name +" released right chopstick");
-					
-					try{
-						priority.unlock();
-					}catch(IllegalMonitorStateException ex){
-					}
-					
 				}
 			}
 		}
